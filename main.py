@@ -30,8 +30,17 @@ while running:
     if choice == "1":
         try:
             user_title = input("Please enter title: ")
+
             user_year = int(input("Please enter release year: "))
-            user_rating = float(input("Please enter rating: "))
+            if user_year > 2026 or user_year < 1888:
+                print("Please enter valid year.")
+                continue
+
+            user_rating = float(input("Please enter rating: ")) 
+            if user_rating < 0 or user_rating > 10:
+                print ("Please enter rating between 1-10.")
+                continue
+                
 
             query = "INSERT INTO movies (title,release_year,rating) VALUES (?,?,?)"
             data = (user_title,user_year,user_rating)
@@ -93,6 +102,10 @@ while running:
                     movie_name = result[0]
                     
                     new_rating = float(input(f"Enter new rating for movie {movie_name}: "))
+
+                    if new_rating < 0 or new_rating > 10:
+                        print ("Please enter rating between 1-10.")
+                        continue
 
                     query = "UPDATE movies SET rating = ? WHERE id = ?"
                     cursor.execute(query,(new_rating, rating_update))
